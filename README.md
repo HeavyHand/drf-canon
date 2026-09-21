@@ -181,23 +181,30 @@ DRF_CANON = {
 
 ## Errors from DRF's own building blocks
 
-Some DRF classes pick the wrong status for an error. Drop-in subclasses fix that and
+Some DRF classes pick the wrong status or report the wrong place. Drop-in subclasses fix that and
 change nothing else:
 
 | Class                                    | DRF does                                            | Subclass does                                  |
 |------------------------------------------|-----------------------------------------------------|------------------------------------------------|
 | `drf_canon.pagination.PageNumberPagination` | `404` on `?page=abc` and past the end; silently ignores a bad `page_size` | `400` on a malformed `page`/`page_size`, `200` with empty `results` past the end |
 | `drf_canon.pagination.CursorPagination`  | `404` on a malformed cursor                         | `400` pointing at `cursor`                     |
+| `drf_canon.ordering.OrderingFilter`      | silently drops an unknown field from `?ordering=`   | `400` listing the allowed fields               |
+| `drf_canon.filtering.FilterBackend`      | django-filter errors read as body errors, a bad range bound is reported under the filter name | `location: query`, pointer at the parameter sent (`/price_max`) |
 
 ```python
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'drf_canon.errors.exception_handler',
     'DEFAULT_PAGINATION_CLASS': 'drf_canon.pagination.PageNumberPagination',
+    'DEFAULT_FILTER_BACKENDS': [
+        'drf_canon.filtering.FilterBackend',
+        'drf_canon.ordering.OrderingFilter',
+    ],
     'PAGE_SIZE': 20,
 }
 ```
 
-Settings and attributes work exactly as in DRF.
+Settings and attributes work exactly as in DRF and django-filter. `drf_canon.filtering` is only for
+projects that already use django-filter; drf-canon does not install it.
 
 ## License
 

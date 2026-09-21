@@ -130,6 +130,19 @@ wheels = [
 ]
 
 [[package]]
+name = "django-filter"
+version = "26.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django", version = "5.2.17", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "django", version = "6.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/cb/3e/563965173d4cbb5fc308087e7b3d11a115b7b67273d093622480b1e31f78/django_filter-26.1.tar.gz", hash = "sha256:66ea04031b068c77c86e1ac26ced7a3f8f13ce797f5795751707e3deefc58054", size = 144299, upload-time = "2026-07-11T09:27:02.767Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1f/01/afffed1e3c4540fb75bf550a18b6176a9f6371b5f3e52b69a28995b6480c/django_filter-26.1-py3-none-any.whl", hash = "sha256:7d98ef2899218e6242619b532cb1b95af14e09dfcf74844aecb550ad27b59ff2", size = 94069, upload-time = "2026-07-11T09:27:01.012Z" },
+]
+
+[[package]]
 name = "django-stubs"
 version = "6.0.9"
 source = { registry = "https://pypi.org/simple" }
@@ -264,6 +277,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "django-filter" },
     { name = "django-stubs", version = "6.0.9", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "django-stubs", version = "6.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "djangorestframework-stubs", version = "3.18.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
@@ -272,6 +286,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-django" },
     { name = "ruff" },
+    { name = "types-django-filter" },
 ]
 
 [package.metadata]
@@ -282,12 +297,14 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "django-filter", specifier = ">=24.3" },
     { name = "django-stubs", specifier = ">=5" },
     { name = "djangorestframework-stubs", specifier = ">=3.15" },
     { name = "mypy", specifier = ">=1.11" },
     { name = "pytest", specifier = ">=8" },
     { name = "pytest-django", specifier = ">=4.9" },
     { name = "ruff", specifier = ">=0.6" },
+    { name = "types-django-filter" },
 ]
 
 [[package]]
@@ -669,6 +686,19 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/12/64/da524626d3b9cc40c168a13da8335fe1c51be12c0a63685cc6db7308daae/tomli-2.4.1-cp314-cp314t-win_amd64.whl", hash = "sha256:2c1c351919aca02858f740c6d33adea0c5deea37f9ecca1cc1ef9e884a619d26", size = 121196, upload-time = "2026-03-25T20:22:01.169Z" },
     { url = "https://files.pythonhosted.org/packages/5a/cd/e80b62269fc78fc36c9af5a6b89c835baa8af28ff5ad28c7028d60860320/tomli-2.4.1-cp314-cp314t-win_arm64.whl", hash = "sha256:eab21f45c7f66c13f2a9e0e1535309cee140182a9cdae1e041d02e47291e8396", size = 100393, upload-time = "2026-03-25T20:22:02.137Z" },
     { url = "https://files.pythonhosted.org/packages/7b/61/cceae43728b7de99d9b847560c262873a1f6c98202171fd5ed62640b494b/tomli-2.4.1-py3-none-any.whl", hash = "sha256:0d85819802132122da43cb86656f8d1f8c6587d54ae7dcaf30e90533028b49fe", size = 14583, upload-time = "2026-03-25T20:22:03.012Z" },
+]
+
+[[package]]
+name = "types-django-filter"
+version = "26.1.0.20260906"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django-stubs", version = "6.0.9", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "django-stubs", version = "6.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0d/b4/c4fc2da1f6454adc5ecb8ddfaf808984851edd9ca3cbccac82dd81375786/types_django_filter-26.1.0.20260906.tar.gz", hash = "sha256:f2c1fc5507364641de2bec6a5b035c4fc7fbe23a1478cbbe89e8cf42214845d7", size = 16211, upload-time = "2026-09-06T06:35:38.985Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/42/a9/e670ce4d002f419b80b9532b2362067bcd91d854d919ece1b319e0e7dde6/types_django_filter-26.1.0.20260906-py3-none-any.whl", hash = "sha256:77673baa89a01f241aaa3b52495391df9f73ed64dc5c9366d48bbf951acd898a", size = 19447, upload-time = "2026-09-06T06:35:37.997Z" },
 ]
 
 [[package]]

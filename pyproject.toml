@@ -43,12 +43,14 @@ Changelog = 'https://github.com/HeavyHand/drf-canon/blob/main/CHANGELOG.md'
 
 [dependency-groups]
 dev = [
+    'django-filter>=24.3',
     'pytest>=8',
     'pytest-django>=4.9',
     'ruff>=0.6',
     'mypy>=1.11',
     'django-stubs>=5',
     'djangorestframework-stubs>=3.15',
+    'types-django-filter',
 ]
 
 [tool.hatch.version]
