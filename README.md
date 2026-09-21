@@ -60,6 +60,20 @@ class OrderViewSet(ProblemDetailsMixin, viewsets.ModelViewSet): ...
 def health(request): ...
 ```
 
+Already have an exception handler for logging, request ids or statuses of your own? Keep it and pass
+its result through `to_problem`:
+
+```python
+from drf_canon.errors import to_problem
+
+
+def exception_handler(exc, context):
+    return to_problem(exc, project_exception_handler(exc, context))
+```
+
+Its headers stay, and so does its status, unless the exception carries its own: a `ProblemError`
+answers with the problem's status, a `ValidationError` with `400`.
+
 Errors DRF raises on its own, such as `401`, `403`, `404`, `405` and `429`, come out in the same
 format, with `WWW-Authenticate` and `Retry-After` preserved.
 

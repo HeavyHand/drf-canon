@@ -9,6 +9,7 @@ All notable changes to this project are documented here. The format follows
 ### Added
 
 - RFC 9457 Problem Details for every DRF error: `exception_handler`, `ProblemDetailsMixin`, `@problem_details`.
+- `to_problem` for putting an existing exception handler's responses into the same format.
 - `errors[]` extension with `location` and JSON Pointer per failed field.
 - Closed catalogue of common problem types and `Problem` for declaring your own.
 - `ProblemError`, `QueryParamError`, `PathParamError`, `HeaderError`.

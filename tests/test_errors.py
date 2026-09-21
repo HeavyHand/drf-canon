@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from rest_framework.test import APIRequestFactory
 from rest_framework.throttling import BaseThrottle
 from rest_framework.views import APIView
+from rest_framework.views import exception_handler as drf_exception_handler
 
 from drf_canon.errors import (
     CONFLICT,
@@ -22,9 +23,11 @@ from drf_canon.errors import (
     Problem,
     ProblemDetailsMixin,
     ProblemError,
+    ProblemResponse,
     QueryParamError,
     get_violations,
     problem_details,
+    to_problem,
 )
 
 NO_AVAILABILITY = Problem('no-availability', 'No availability', 409)
@@ -256,3 +259,54 @@ def test_violations_escape_pointer_tokens_and_attach_object_messages() -> None:
 def test_problem_rejects_bad_definitions(slug: str, status: int) -> None:
     with pytest.raises(ValueError, match='Problem'):
         Problem(slug, 'Title', status)
+
+
+class Duplicate(Exception):
+    pass
+
+
+def project_exception_handler(exc: Exception, context: dict[str, Any]) -> Response | None:
+    if isinstance(exc, Duplicate):
+        response: Response | None = Response({'detail': 'Email is taken'}, status=409)
+    else:
+        response = drf_exception_handler(exc, context)
+    if response is not None:
+        response['X-Request-Id'] = 'abc'
+    return response
+
+
+def chained_handler(exc: Exception, context: dict[str, Any]) -> Response | None:
+    return to_problem(exc, project_exception_handler(exc, context))
+
+
+class ChainedView(RaisingView):
+    def get_exception_handler(self) -> Any:
+        return chained_handler
+
+
+def test_to_problem_keeps_what_the_project_handler_did() -> None:
+    response, body = render(ChainedView.as_view(exc=Duplicate())(factory.get('/')))
+
+    assert response.status_code == 409
+    assert response['X-Request-Id'] == 'abc'
+    assert body == {
+        'type': '/problems/conflict',
+        'title': 'Conflicting resource state',
+        'status': 409,
+        'detail': 'Email is taken',
+    }
+
+
+def test_to_problem_still_reads_the_exception() -> None:
+    _, body = render(ChainedView.as_view(exc=QueryParamError({'page': 'Must be positive'}))(factory.get('/')))
+
+    assert body['errors'] == [{'location': 'query', 'pointer': '/page', 'detail': 'Must be positive'}]
+
+
+def test_to_problem_leaves_other_responses_alone() -> None:
+    ok = Response({'ok': True})
+    problem = ProblemResponse({'type': 'about:blank'}, status=400)
+
+    assert to_problem(Exception(), None) is None
+    assert to_problem(Exception(), ok) is ok
+    assert to_problem(NotFound(), problem) is problem

@@ -14,6 +14,7 @@ from drf_canon.errors.handler import (
     exception_handler,
     get_violations,
     problem_details,
+    to_problem,
 )
 from drf_canon.errors.problems import (
     CATALOGUE,
@@ -54,4 +55,5 @@ __all__ = [
     'exception_handler',
     'get_violations',
     'problem_details',
+    'to_problem',
 ]
