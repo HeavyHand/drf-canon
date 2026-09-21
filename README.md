@@ -179,6 +179,26 @@ DRF_CANON = {
 @extend_schema(responses={201: OrderSerializer, 400: ProblemSerializer, 409: ProblemSerializer})
 ```
 
+## Errors from DRF's own building blocks
+
+Some DRF classes pick the wrong status for an error. Drop-in subclasses fix that and
+change nothing else:
+
+| Class                                    | DRF does                                            | Subclass does                                  |
+|------------------------------------------|-----------------------------------------------------|------------------------------------------------|
+| `drf_canon.pagination.PageNumberPagination` | `404` on `?page=abc` and past the end; silently ignores a bad `page_size` | `400` on a malformed `page`/`page_size`, `200` with empty `results` past the end |
+| `drf_canon.pagination.CursorPagination`  | `404` on a malformed cursor                         | `400` pointing at `cursor`                     |
+
+```python
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'drf_canon.errors.exception_handler',
+    'DEFAULT_PAGINATION_CLASS': 'drf_canon.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+}
+```
+
+Settings and attributes work exactly as in DRF.
+
 ## License
 
 MIT

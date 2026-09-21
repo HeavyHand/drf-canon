@@ -13,3 +13,5 @@ All notable changes to this project are documented here. The format follows
 - Closed catalogue of common problem types and `Problem` for declaring your own.
 - `ProblemError`, `QueryParamError`, `PathParamError`, `HeaderError`.
 - `ProblemSerializer` for describing error responses in OpenAPI.
+- `PageNumberPagination` and `CursorPagination`: `400` instead of `404` on a malformed page, cursor or
+  page size, empty page past the end.
