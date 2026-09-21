@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-22
+
 ### Added
 
 - RFC 9457 Problem Details for every DRF error: `exception_handler`, `ProblemDetailsMixin`, `@problem_details`.
@@ -20,3 +22,6 @@ All notable changes to this project are documented here. The format follows
 - `FilterBackend`: django-filter errors as query errors, pointing at the parameter the client sent.
 - `contrib.spectacular.AutoSchema`: documents the Problem Details responses of every endpoint in
   drf-spectacular.
+
+[Unreleased]: https://github.com/HeavyHand/drf-canon/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/HeavyHand/drf-canon/releases/tag/v0.1.0

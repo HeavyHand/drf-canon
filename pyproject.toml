@@ -17,7 +17,7 @@ dependencies = [
 ]
 keywords = ['django', 'djangorestframework', 'drf', 'rfc9457', 'problem-details', 'api']
 classifiers = [
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 4 - Beta',
     'Environment :: Web Environment',
     'Framework :: Django',
     'Framework :: Django :: 4.2',
