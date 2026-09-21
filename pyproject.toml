@@ -51,6 +51,7 @@ dev = [
     'django-stubs>=5',
     'djangorestframework-stubs>=3.15',
     'types-django-filter',
+    "drf-spectacular>=0.27",
 ]
 
 [tool.hatch.version]
@@ -92,6 +93,11 @@ files = ['src']
 # DRF serializers are generic only in the stubs; subscripting them fails at runtime
 module = 'drf_canon.errors.schema'
 disallow_any_generics = false
+
+[[tool.mypy.overrides]]
+# the response builder we extend is untyped in drf-spectacular
+module = 'drf_canon.contrib.spectacular'
+disallow_untyped_calls = false
 
 [tool.django-stubs]
 django_settings_module = 'tests.settings'

@@ -173,11 +173,34 @@ DRF_CANON = {
 
 ### OpenAPI
 
-`drf_canon.errors.schema.ProblemSerializer` describes the envelope:
+With [drf-spectacular](https://drf-spectacular.readthedocs.io/), swap in the schema class and every
+endpoint documents its errors on its own:
 
 ```python
-@extend_schema(responses={201: OrderSerializer, 400: ProblemSerializer, 409: ProblemSerializer})
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_canon.contrib.spectacular.AutoSchema',
+}
 ```
+
+Each operation gets the `application/problem+json` responses that follow from how it is built:
+
+- `400` when it takes a request body or query parameters;
+- `401` when it needs a login, `403` when a permission beyond that can refuse;
+- `404` when its path has parameters.
+
+Responses you declare with `@extend_schema` stay as they are. Declare your own problems there, and
+`ProblemSerializer` is documented as `application/problem+json` too:
+
+```python
+from drf_canon.errors.schema import ProblemSerializer
+
+
+@extend_schema(responses={201: OrderSerializer, 409: ProblemSerializer})
+def create(self, request): ...
+```
+
+Without drf-spectacular, `ProblemSerializer` describes the envelope for whatever schema tool you use.
+drf-canon does not install drf-spectacular.
 
 ## Errors from DRF's own building blocks
 

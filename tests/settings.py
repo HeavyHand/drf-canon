@@ -18,4 +18,5 @@ USE_TZ = True
 REST_FRAMEWORK: dict[str, Any] = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
+    'DEFAULT_SCHEMA_CLASS': 'drf_canon.contrib.spectacular.AutoSchema',
 }

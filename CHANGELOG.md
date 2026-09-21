@@ -17,3 +17,5 @@ All notable changes to this project are documented here. The format follows
   page size, empty page past the end.
 - `OrderingFilter`: `400` on an unknown `?ordering=` field instead of ignoring it.
 - `FilterBackend`: django-filter errors as query errors, pointing at the parameter the client sent.
+- `contrib.spectacular.AutoSchema`: documents the Problem Details responses of every endpoint in
+  drf-spectacular.
