@@ -1,0 +1,95 @@
+[build-system]
+requires = ['hatchling>=1.27']
+build-backend = 'hatchling.build'
+
+[project]
+name = 'drf-canon'
+dynamic = ['version']
+description = 'RFC 9457 Problem Details for every Django REST framework error.'
+readme = 'README.md'
+license = 'MIT'
+license-files = ['LICENSE']
+authors = [{ name = 'Daler Khalilov' }]
+requires-python = '>=3.10'
+dependencies = [
+    'Django>=4.2',
+    'djangorestframework>=3.15',
+]
+keywords = ['django', 'djangorestframework', 'drf', 'rfc9457', 'problem-details', 'api']
+classifiers = [
+    'Development Status :: 3 - Alpha',
+    'Environment :: Web Environment',
+    'Framework :: Django',
+    'Framework :: Django :: 4.2',
+    'Framework :: Django :: 5.2',
+    'Framework :: Django :: 6.0',
+    'Framework :: Django :: 6.1',
+    'Intended Audience :: Developers',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
+    'Topic :: Internet :: WWW/HTTP',
+    'Typing :: Typed',
+]
+
+[project.urls]
+Homepage = 'https://github.com/HeavyHand/drf-canon'
+Issues = 'https://github.com/HeavyHand/drf-canon/issues'
+Changelog = 'https://github.com/HeavyHand/drf-canon/blob/main/CHANGELOG.md'
+
+[dependency-groups]
+dev = [
+    'pytest>=8',
+    'pytest-django>=4.9',
+    'ruff>=0.6',
+    'mypy>=1.11',
+    'django-stubs>=5',
+    'djangorestframework-stubs>=3.15',
+]
+
+[tool.hatch.version]
+path = 'src/drf_canon/__init__.py'
+
+[tool.hatch.build.targets.sdist]
+include = ['src', 'tests', 'CHANGELOG.md']
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = 'tests.settings'
+pythonpath = ['.']
+testpaths = ['tests']
+addopts = '--strict-markers'
+
+[tool.ruff]
+line-length = 120
+target-version = 'py310'
+
+[tool.ruff.format]
+quote-style = 'single'
+
+[tool.ruff.lint]
+select = ['E', 'W', 'F', 'I', 'B', 'UP', 'SIM', 'RUF', 'DJ', 'PT', 'Q']
+# DRF configures views and serializers through mutable class attributes
+ignore = ['RUF012']
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = 'single'
+
+[tool.ruff.lint.isort]
+known-first-party = ['drf_canon']
+
+[tool.mypy]
+strict = true
+plugins = ['mypy_django_plugin.main', 'mypy_drf_plugin.main']
+files = ['src']
+
+[[tool.mypy.overrides]]
+# DRF serializers are generic only in the stubs; subscripting them fails at runtime
+module = 'drf_canon.errors.schema'
+disallow_any_generics = false
+
+[tool.django-stubs]
+django_settings_module = 'tests.settings'
